@@ -19,8 +19,10 @@ ship-kit/
 │   │   └── SKILL.md         # 产品开发 skill
 │   ├── ship/
 │   │   └── SKILL.md         # 发布部署 skill
-│   └── iterate/
-│       └── SKILL.md         # 迭代优化 skill
+│   ├── iterate/
+│   │   └── SKILL.md         # 迭代优化 skill
+│   └── release/
+│       └── SKILL.md         # 版本发布 skill
 ├── CHANGELOG.md             # 版本变更记录
 ├── SPEC.md                  # 本文件
 ├── README.md                # 使用指南
@@ -150,6 +152,16 @@ allowed-tools: [工具列表]      # 允许使用的工具
 | meta description | `grep` | 所有页面有 |
 | lang 属性 | `grep` | 所有页面有 |
 | 页面大小 | `du -sh` | < 500KB |
+
+### release 验证
+
+| 检查项 | 方法 | 通过标准 |
+|--------|------|----------|
+| 无未提交变更 | `git status --porcelain` | 输出为空 |
+| CHANGELOG 更新 | `grep "## [X.Y.Z]"` | 新版本条目存在 |
+| 版本号一致 | `grep version` | plugin.json 和 CHANGELOG 一致 |
+| Tag 存在 | `git tag -l "vX.Y.Z"` | tag 存在 |
+| Tag 已推送 | `git ls-remote --tags` | 远程有 tag |
 
 ---
 

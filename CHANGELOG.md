@@ -1,6 +1,21 @@
 # Changelog
 
 所有版本的变更记录。格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。
+只增不删：旧版本条目永久保留。
+
+---
+
+## [5.1.0] - 2026-05-23
+
+### Added
+- 新增 `/release` skill：规范化版本管理（CHANGELOG + 版本号 + git tag + push）
+- 从 git log 自动提取变更，分类到 Added/Changed/Fixed
+- 发布前自动检查未提交变更
+- 发布后自动验证 tag 和版本号
+
+### Changed
+- plugin.json name 从 `product-forge` 改为 `ship-kit`
+- 描述从 5 个技能更新为 6 个
 
 ---
 

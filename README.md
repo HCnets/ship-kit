@@ -1,6 +1,6 @@
 # Ship Kit
 
-从点子到产品，5 步搞定。
+从点子到产品，6 步搞定。
 
 ## 这是什么
 
@@ -22,7 +22,7 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 /quick-validate "给未来的自己写信的应用" time-mailbox
 ```
 
-然后按提示走完 5 步：
+然后按提示走完 6 步：
 
 ```
 /quick-validate  →  验证方向（5 分钟）
@@ -30,9 +30,10 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 /build           →  完善功能（每轮 15 分钟）
 /ship            →  发布上线（5 分钟）
 /iterate         →  基于反馈优化
+/release         →  版本发布（CHANGELOG + tag）
 ```
 
-## 5 个命令详解
+## 6 个命令详解
 
 ### 1. `/quick-validate` — 验证方向
 
@@ -142,6 +143,29 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 
 ---
 
+### 6. `/release` — 版本发布
+
+**做什么：** 规范化发版——更新 CHANGELOG、bump 版本号、打 git tag、push。
+
+**输入：**
+```
+/release [major|minor|patch] [发布说明]
+```
+
+**输出：**
+- CHANGELOG.md 添加新版本条目
+- plugin.json / package.json 版本号更新
+- git tag（vX.Y.Z）
+- push 到远程
+
+**自动处理：**
+- 从 git log 提取变更，自动分类到 Added/Changed/Fixed
+- 发布前检查未提交变更
+- 发布后验证 tag 和版本号
+- CHANGELOG 只增不删
+
+---
+
 ## 完整示例
 
 ```
@@ -160,6 +184,9 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 
 # 5. 迭代
 /iterate quick-note
+
+# 6. 发版本
+/release minor 加了深色模式和标签筛选
 ```
 
 ## 文件结构
@@ -179,7 +206,7 @@ brainstorm/<项目名>/
 
 详见 [CHANGELOG.md](./CHANGELOG.md)。
 
-当前版本：**v5.0.0**
+当前版本：**v5.1.0**
 
 ## 技术规范
 
