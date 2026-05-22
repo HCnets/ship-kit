@@ -249,7 +249,7 @@ brainstorm/<项目名>/
 
 详见 [CHANGELOG.md](./CHANGELOG.md)。
 
-当前版本：**v5.3.0**
+当前版本：**v1.3.0**
 
 ## 技术规范
 
