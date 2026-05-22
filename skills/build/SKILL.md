@@ -12,7 +12,10 @@ allowed-tools: [Read, Write, Edit, Glob, Grep, Bash, Agent, WebSearch, WebFetch]
 ## 初始化
 
 1. 解析项目名和要加的功能。读取项目代码和已有报告
-2. 分析当前代码状态：有什么、缺什么、哪里需要改
+2. 检查 `brainstorm/<项目名>/.phase-meta.json` 是否存在：
+   - 存在 → 读取 Phase 计划，自动定位到 `currentPhase`，优先构建该 Phase 的功能
+   - 不存在 → 按传统模式，从报告和代码中分析
+3. 分析当前代码状态：有什么、缺什么、哪里需要改
 
 ## Step 1：当前状态评估
 
@@ -91,6 +94,9 @@ git commit -m "feat: <功能名称>"
 
 更新项目代码。
 写入 `brainstorm/<项目名>/build-report.md`（本轮做了什么 + 验证结果 + 下一步建议）。
+
+如果 `.phase-meta.json` 存在，更新当前 Phase 的 `status` 为 `completed`，并递增 `currentPhase`。
+
 输出：`下一步：/build <项目名>（继续加功能）或 /ship <项目名>（准备发布）`
 
 ## 约束

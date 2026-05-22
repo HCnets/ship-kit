@@ -47,24 +47,25 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 
 ### 1. `/spec` — 需求解析
 
-**做什么：** 把具体需求文档拆成可执行的功能列表、技术方案、工时估算。
+**做什么：** 把需求或现有项目拆成可执行的功能列表、技术方案、Phase 计划。
 
 **输入：**
 ```
-/spec "需求描述" 项目名
-/spec 需求文档.md 项目名
+/spec "需求描述" 项目名           # 新建模式
+/spec "项目路径" --existing       # 重构模式（先读代码再分析）
 ```
 
-**输出：** `brainstorm/<项目名>/spec-report.md`
+**输出：** `brainstorm/<项目名>/spec-report.md` + `.phase-meta.json`
 - 需求理解（目标/用户/核心功能/约束）
-- 功能拆分（5-10 个功能点，每个有验收标准和工时）
+- 功能拆分（5-10 个功能点，每个有可执行的验收标准）
 - 技术方案（框架/数据库/部署/关键依赖）
 - 风险评估
-- 开发计划（分 Phase）
+- 开发计划（分 Phase，自动串联到 `/build`）
 
 **示例：**
 ```
-/spec "用户管理系统，JWT 认证，PostgreSQL，Docker 部署" user-api
+/spec "用户管理系统，JWT 认证，PostgreSQL，Docker" user-api
+/spec "smtc-lyrics" --existing    # 重构已有项目
 ```
 
 ---
@@ -114,7 +115,7 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 
 ### 4. `/build` — 完善产品
 
-**做什么：** 给原型加功能、打磨体验。每轮只做 1-2 个功能。
+**做什么：** 给原型加功能、打磨体验。每轮只做 1-2 个功能。自动读取 `/spec` 的 Phase 计划。
 
 **输入：**
 ```
@@ -125,6 +126,7 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 - 更新的项目代码
 - `brainstorm/<项目名>/build-report.md`
 - 自动 git commit
+- 自动更新 Phase 状态
 
 **每个功能完成后自动验证：**
 - 构建是否成功
@@ -221,6 +223,13 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 /release minor 加权限管理
 ```
 
+**示例 C：重构已有项目**
+```
+/spec "smtc-lyrics" --existing
+/build smtc-lyrics
+/ship smtc-lyrics
+```
+
 ## 文件结构
 
 项目运行后会生成：
@@ -228,6 +237,8 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 ```
 brainstorm/<项目名>/
 ├── validate-report.md    # 验证报告
+├── spec-report.md        # 需求分析
+├── .phase-meta.json      # Phase 元数据（/build 自动读取）
 ├── prototype-report.md   # 原型报告
 ├── build-report.md       # 开发报告
 ├── ship-report.md        # 发布报告
@@ -238,7 +249,7 @@ brainstorm/<项目名>/
 
 详见 [CHANGELOG.md](./CHANGELOG.md)。
 
-当前版本：**v5.2.0**
+当前版本：**v5.3.0**
 
 ## 技术规范
 
