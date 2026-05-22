@@ -1,10 +1,14 @@
 # Ship Kit
 
-从点子到产品，6 步搞定。
+从点子到产品，7 步搞定。支持两种入口：模糊想法和具体任务。
 
 ## 这是什么
 
-Ship Kit 是一组 Claude Code 技能（skills），帮你把一个想法变成真正发布的产品。不需要手动分析、不需要写文档模板——输入方向，跟着走就行。
+Ship Kit 是一组 Claude Code 技能（skills），帮你把想法或需求变成真正发布的产品。两种入口：
+- **模糊想法** → `/quick-validate`（搜数据验证方向）
+- **具体任务** → `/spec`（解析需求拆功能）
+
+后续流程共用：`/rapid-prototype` → `/build` → `/ship` → `/iterate` → `/release`
 
 ## 安装
 
@@ -22,10 +26,16 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 /quick-validate "给未来的自己写信的应用" time-mailbox
 ```
 
-然后按提示走完 6 步：
+然后按提示走完：
 
 ```
+# 入口 A：模糊想法
 /quick-validate  →  验证方向（5 分钟）
+
+# 入口 B：具体任务
+/spec            →  需求解析（10 分钟）
+
+# 后续流程（两个入口共用）
 /rapid-prototype →  生成原型（10 分钟）
 /build           →  完善功能（每轮 15 分钟）
 /ship            →  发布上线（5 分钟）
@@ -33,9 +43,33 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 /release         →  版本发布（CHANGELOG + tag）
 ```
 
-## 6 个命令详解
+## 7 个命令详解
 
-### 1. `/quick-validate` — 验证方向
+### 1. `/spec` — 需求解析
+
+**做什么：** 把具体需求文档拆成可执行的功能列表、技术方案、工时估算。
+
+**输入：**
+```
+/spec "需求描述" 项目名
+/spec 需求文档.md 项目名
+```
+
+**输出：** `brainstorm/<项目名>/spec-report.md`
+- 需求理解（目标/用户/核心功能/约束）
+- 功能拆分（5-10 个功能点，每个有验收标准和工时）
+- 技术方案（框架/数据库/部署/关键依赖）
+- 风险评估
+- 开发计划（分 Phase）
+
+**示例：**
+```
+/spec "用户管理系统，JWT 认证，PostgreSQL，Docker 部署" user-api
+```
+
+---
+
+### 2. `/quick-validate` — 验证方向（模糊想法入口）
 
 **做什么：** 搜 GitHub 仓库和 issues，验证你的方向是否有真实需求。
 
@@ -56,7 +90,7 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 
 ---
 
-### 2. `/rapid-prototype` — 生成原型
+### 3. `/rapid-prototype` — 生成原型
 
 **做什么：** 从验证报告直接生成可运行的代码。能跑就行，不追求完美。
 
@@ -78,7 +112,7 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 
 ---
 
-### 3. `/build` — 完善产品
+### 4. `/build` — 完善产品
 
 **做什么：** 给原型加功能、打磨体验。每轮只做 1-2 个功能。
 
@@ -100,7 +134,7 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 
 ---
 
-### 4. `/ship` — 发布上线
+### 5. `/ship` — 发布上线
 
 **做什么：** 打包、写 README、部署到 GitHub Pages。真正发出去。
 
@@ -122,7 +156,7 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 
 ---
 
-### 5. `/iterate` — 迭代优化
+### 6. `/iterate` — 迭代优化
 
 **做什么：** 主动扫描问题（不只等反馈），确定下一轮改进方向。
 
@@ -143,7 +177,7 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 
 ---
 
-### 6. `/release` — 版本发布
+### 7. `/release` — 版本发布
 
 **做什么：** 规范化发版——更新 CHANGELOG、bump 版本号、打 git tag、push。
 
@@ -168,25 +202,23 @@ git clone https://github.com/HCnets/ship-kit.git ~/.claude/plugins/ship-kit
 
 ## 完整示例
 
+**示例 A：从模糊想法开始**
 ```
-# 1. 验证方向
 /quick-validate "极简 Markdown 笔记应用" quick-note
-
-# 2. 生成原型
 /rapid-prototype quick-note
-
-# 3. 加功能（多轮）
 /build quick-note 加深色模式
-/build quick-note 加标签筛选
-
-# 4. 发布
 /ship quick-note
-
-# 5. 迭代
 /iterate quick-note
+/release minor 加了深色模式
+```
 
-# 6. 发版本
-/release minor 加了深色模式和标签筛选
+**示例 B：从具体任务开始**
+```
+/spec "用户管理系统，JWT 认证，PostgreSQL，Docker" user-api
+/rapid-prototype user-api
+/build user-api 加权限管理
+/ship user-api
+/release minor 加权限管理
 ```
 
 ## 文件结构
@@ -206,7 +238,7 @@ brainstorm/<项目名>/
 
 详见 [CHANGELOG.md](./CHANGELOG.md)。
 
-当前版本：**v5.1.0**
+当前版本：**v5.2.0**
 
 ## 技术规范
 

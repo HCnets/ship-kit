@@ -11,6 +11,8 @@ ship-kit/
 ├── .claude-plugin/
 │   └── plugin.json          # 插件元数据（name, description, version）
 ├── skills/
+│   ├── spec/
+│   │   └── SKILL.md         # 需求解析 skill
 │   ├── quick-validate/
 │   │   └── SKILL.md         # 快速验证 skill
 │   ├── rapid-prototype/
@@ -72,9 +74,10 @@ allowed-tools: [工具列表]      # 允许使用的工具
 ## 数据流
 
 ```
-用户输入方向
+入口 A（模糊想法）：用户输入方向 → /quick-validate
+入口 B（具体任务）：用户输入需求 → /spec
     ↓
-/quick-validate → brainstorm/<项目>/validate-report.md
+brainstorm/<项目>/validate-report.md 或 spec-report.md
     ↓
 /rapid-prototype → brainstorm/<项目>/prototype-report.md + 项目代码
     ↓
@@ -93,6 +96,7 @@ allowed-tools: [工具列表]      # 允许使用的工具
 
 | 文件 | 生成者 | 内容 |
 |------|--------|------|
+| `spec-report.md` | spec | 需求理解、功能拆分、技术方案、风险评估、开发计划 |
 | `validate-report.md` | quick-validate | 痛点评分、功能切片、竞品分析 |
 | `prototype-report.md` | rapid-prototype | 文件清单、验证结果、已知限制 |
 | `build-report.md` | build | 本轮完成内容、验证结果、下一步建议 |
@@ -102,6 +106,16 @@ allowed-tools: [工具列表]      # 允许使用的工具
 ---
 
 ## 验证规范
+
+### spec 验证
+
+| 检查项 | 方法 | 通过标准 |
+|--------|------|----------|
+| 需求理解完整 | 人工确认 | 用户确认无遗漏 |
+| 功能有验收标准 | 逐条检查 | 每个功能点有可验证的验收标准 |
+| 工时估算合理 | 对比同类项目 | 单功能不超过 40h |
+| 技术方案可行 | 技术调研 | 无已知阻断性技术问题 |
+| 开发顺序合理 | 依赖分析 | 无循环依赖 |
 
 ### quick-validate 验证
 
